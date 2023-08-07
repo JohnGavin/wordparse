@@ -6,6 +6,9 @@
 \usage{
 vowel_strs(x)
 }
+\arguments{
+\item{x}{character vector.}
+}
 \description{
 Iterate over a character vector, to extract vowels.
 Return a named vector of the vowels found.
