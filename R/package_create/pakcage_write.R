@@ -13,6 +13,21 @@ my_folder <- "../wordparse"
 # Add a dependency
 # use_package('tibble')
 
+# create README
+# Choose whether you want a Markdown or an R Markdown README file
+use_readme_rmd() # R Markdown README file
+# use_readme_md() for a Markdown README file
+pacman::p_load(devtools, rmarkdown, installr)
+
+Sys.getenv("RSTUDIO_PANDOC")
+# brew install pandoc
+# installr::install.pandoc(keep_install_file=TRUE)
+rmarkdown::pandoc_available(version = NULL, error = FALSE)
+
+# macOS, add the following to your .bash_profile file:
+#  export RSTUDIO_PANDOC=/Applications/RStudio.app/Contents/MacOS/pandoc
+devtools::build_readme()
+
 # Add a function to your package
 use_r("extract_vowels")
 
@@ -42,6 +57,11 @@ gitcreds::gitcreds_set()
 gh::gh_whoami()
 # make sure everything is looking good
 usethis::git_sitrep()
+
+
+# push your project to GitHub
+# usethis::use_git() # initialize a git repository
+# usethis::use_github() # create a GitHub remote for project
 
 # https://stackoverflow.com/questions/22565024/how-to-properly-include-dependencies-in-r-package
 
