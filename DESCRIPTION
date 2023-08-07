@@ -1,0 +1,20 @@
+Package: wordparse
+Title: Extract vowels from a character vector
+Version: 0.0.1
+Authors@R: 
+    person("j", "g", , "first.last@example.com", 
+      role = c("aut", "cre"))
+Description:
+  Iterate over a character vector, to extract vowels.
+  Return a named vector of the vowels found.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports:
+  dplyr,
+  purrr
+Suggests: 
+    testthat (>= 3.0.0),
+    devtools, here, pacman
+Config/testthat/edition: 3
