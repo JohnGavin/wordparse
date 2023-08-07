@@ -9,6 +9,7 @@ use_github_action("check-standard") # remove Mac/Windows?
 # uses [covr](https://covr.r-lib.org) package
 # query test coverage of package
 # upload the result to [codecov.io](https://codecov.io)
+# TODO: Please upload with the Codecov repository upload token to resolve issue
 use_github_action("test-coverage")
 
 use_github_action("render-rmarkdown")
