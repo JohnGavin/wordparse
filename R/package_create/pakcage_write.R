@@ -15,18 +15,15 @@ my_folder <- "../wordparse"
 
 # create README
 # Choose whether you want a Markdown or an R Markdown README file
-use_readme_rmd() # R Markdown README file
-# use_readme_md() for a Markdown README file
-pacman::p_load(devtools, rmarkdown, installr)
-
-Sys.getenv("RSTUDIO_PANDOC")
+# use_readme_rmd() # create R Markdown README - run once
+pacman::p_load(devtools, rmarkdown)
 # brew install pandoc
 # installr::install.pandoc(keep_install_file=TRUE)
 rmarkdown::pandoc_available(version = NULL, error = FALSE)
-
 # macOS, add the following to your .bash_profile file:
 #  export RSTUDIO_PANDOC=/Applications/RStudio.app/Contents/MacOS/pandoc
 devtools::build_readme()
+Sys.getenv("RSTUDIO_PANDOC")
 
 # Add a function to your package
 use_r("extract_vowels")
