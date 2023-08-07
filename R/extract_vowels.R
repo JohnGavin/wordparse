@@ -12,6 +12,8 @@ vowel_str <- function(x){
 #' Iterate over a character vector, to extract vowels.
 #' Return a named vector of the vowels found.
 #'
+#' @param x character vector
+#'
 #' @export
 #' @importFrom purrr map
 vowel_strs <- function(x){
