@@ -2,7 +2,7 @@ Package: wordparse
 Title: Extract vowels from a character vector
 Version: 0.0.1
 Authors@R: 
-    person("j", "g", , "first.last@example.com", 
+    person("john", "gavin", , "john.gavin@gmail.com", 
       role = c("aut", "cre"))
 Description:
   Iterate over a character vector, to extract vowels.
