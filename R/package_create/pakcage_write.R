@@ -1,9 +1,9 @@
 
 # renv::install()
 # renv::snapshot()
-if (!requireNamespace("devtools")) install.packages("devtools")
-if (!requireNamespace("pacman")) install.packages("pacman")
-pacman::p_load(devtools, here)
+# if (!requireNamespace("devtools")) install.packages("devtools")
+# if (!requireNamespace("pacman")) install.packages("pacman")
+pacman::p_load(devtools, here, rmarkdown)
 
 here::dr_here()
 
@@ -13,10 +13,19 @@ my_folder <- "../wordparse"
 # Add a dependency
 # use_package('tibble')
 
+# (Re-)build NAMESPACE
+install(my_folder)
+# update the NAMESPACE file
+document(my_folder)
+document()
+
+# Reload the package: CTRL-L or
+load_all()
+
+
 # create README
 # Choose whether you want a Markdown or an R Markdown README file
 # use_readme_rmd() # create R Markdown README - run once
-pacman::p_load(devtools, rmarkdown)
 # brew install pandoc
 # installr::install.pandoc(keep_install_file=TRUE)
 rmarkdown::pandoc_available(version = NULL, error = FALSE)
@@ -28,14 +37,7 @@ Sys.getenv("RSTUDIO_PANDOC")
 # Add a function to your package
 use_r("extract_vowels")
 
-# (Re-)build NAMESPACE
-document(my_folder)
-install(my_folder)
 
-document()
-
-# Reload the package: CTRL-L or
-load_all()
 
 library(testthat)
 library(wordparse)
@@ -47,10 +49,9 @@ test(my_folder)
 # usethis::edit_r_environ()
 # Chp 10: Happy Git With R - setup a new PAT
 usethis::create_github_token()
-library(credentials)
-set_github_pat()
-# change authentication - paste in your PAT
-gitcreds::gitcreds_set()
+# credentials::set_github_pat() # to update credentials
+# change authentication - PASTE IN your PAT
+# gitcreds::gitcreds_set()
 gh::gh_whoami()
 # make sure everything is looking good
 usethis::git_sitrep()
