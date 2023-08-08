@@ -1,9 +1,9 @@
 
 
-#' @importFrom dplyr `%>%`
+# @ importFrom dplyr `%>%`
 vowel_str <- function(x){
-  strsplit(x, "") %>%
-  unlist() %>%
+  strsplit(x, "") |>
+  unlist() |>
   intersect(y = strsplit("aeiou", "")[[1]])
 }
 
@@ -17,8 +17,8 @@ vowel_str <- function(x){
 #' @export
 #' @importFrom purrr map
 vowel_strs <- function(x){
-  x %>%
-  map( ~ vowel_str(.)) %>%
+  x |>
+  map( ~ vowel_str(.)) |>
   structure(names = x)
 }
 
