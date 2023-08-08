@@ -60,6 +60,7 @@ usethis::git_sitrep()
 # push your project to GitHub
 # usethis::use_git() # initialize a git repository
 # usethis::use_github() # create a GitHub remote for project
+pr_init('main')
 usethis::pr_push()
 
 # https://stackoverflow.com/questions/22565024/how-to-properly-include-dependencies-in-r-package
