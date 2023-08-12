@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Quarto and targets example</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="targets_pipeline_em_files/libs/clipboard/clipboard.min.js"></script>
+<script src="targets_pipeline_em_files/libs/quarto-html/quarto.js"></script>
+<script src="targets_pipeline_em_files/libs/quarto-html/popper.min.js"></script>
+<script src="targets_pipeline_em_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="targets_pipeline_em_files/libs/quarto-html/anchor.min.js"></script>
+<link href="targets_pipeline_em_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="targets_pipeline_em_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="targets_pipeline_em_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="targets_pipeline_em_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="targets_pipeline_em_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="targets_pipeline_em_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<link href="targets_pipeline_em_files/libs/vis-9.1.0/vis-network.min.css" rel="stylesheet">
+<script src="targets_pipeline_em_files/libs/vis-9.1.0/vis-network.min.js"></script>
+<script src="targets_pipeline_em_files/libs/visNetwork-binding-2.1.2/visNetwork.js"></script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Quarto and targets example</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<!--
+generate the contents of a sample quarto .qmd file that includes an example of a targets pipeline
+-->
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>This is a quarto document that uses the targets package to create a reproducible pipeline. The pipeline consists of the following steps:</p>
+<ul>
+<li>Download some data from the web using <code>tar_target()</code>.</li>
+<li>Clean the data and filter out some rows using <code>tar_target()</code>.</li>
+<li>Plot the data using <code>tar_target()</code>.</li>
+<li>Render this document using <code>tar_render()</code>.</li>
+</ul>
+</section>
+<section id="setup" class="level1">
+<h1>Setup</h1>
+<p>We load the required packages and set some options.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quarto)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(targets)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tarchetypes)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">tidyverse.quiet =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="pipeline" class="level1">
+<h1>Pipeline</h1>
+<p>We define the pipeline using a list of target objects. We use the <code>tar_target()</code> function to create regular targets, and the <code>tar_render()</code> function to create a special target that renders this document.</p>
+<section id="step-1---load-and-process-data" class="level2">
+<h2 class="anchored" data-anchor-id="step-1---load-and-process-data">step 1 - load and process data</h2>
+<ul>
+<li>We use the mtcars dataset from R</li>
+<li>create a new variable called mpg01 that indicates whether the miles per gallon is above or below the median.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">getwd</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "/Users/johngavin/Documents_GitHub/wordparse/vignettes"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: ../R v ./R ?</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../R/plan_vig_targets.R"</span>) <span class="co"># Some custom functions for the pipeline</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_make</span>() <span class="co"># essential else dataa doesnt exist?!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>✔ skip target dataa
+✔ skip target modell
+✔ skip target plott
+✔ skip pipeline [0.024 seconds]
+Warning message:
+Targets and globals must have unique names. Ignoring global objects that conflict with target names: modell, dataa, plott. Warnings like this one are important, but if you must suppress them, you can do so with Sys.setenv(TAR_WARN = "false"). </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(dataa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb mpg01
+Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4  High
+Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4  High
+Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1  High
+Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1  High
+Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2   Low
+Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1   Low
+Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4   Low
+Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2  High
+Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2  High
+Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4   Low
+Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4   Low
+Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3   Low
+Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3   Low
+Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3   Low
+Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4   Low
+Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4   Low
+Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4   Low
+Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1  High
+Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2  High
+Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1  High
+Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1  High
+Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2   Low
+AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2   Low
+Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4   Low
+Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2   Low
+Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1  High
+Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2  High
+Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2  High
+Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4   Low
+Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6  High
+Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8   Low
+Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2  High</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(modell)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:  glm(formula = mpg01 ~ wt + hp, family = binomial, data = dataa)
+
+Coefficients:
+(Intercept)           wt           hp  
+  -621.3209     175.4753       0.3336  
+
+Degrees of Freedom: 31 Total (i.e. Null);  29 Residual
+Null Deviance:      44.24 
+Residual Deviance: 4.825e-09    AIC: 6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(plott)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="targets_pipeline_em_files/figure-html/functions.R-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_script</span>(<span class="fu">tar_target</span>(xx, <span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span>), <span class="at">ask =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_make</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>✔ skip target xx
+✔ skip pipeline [0.021 seconds]</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(xx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+</section>
+<section id="second-step---fit-a-linear-model" class="level2">
+<h2 class="anchored" data-anchor-id="second-step---fit-a-linear-model">second step - fit a linear model</h2>
+<ul>
+<li>of mpg01 as a function of wt and hp</li>
+<li>use the glm function with a binomial family.</li>
+</ul>
+</section>
+<section id="third-step---plot-predicted-probabilities" class="level2">
+<h2 class="anchored" data-anchor-id="third-step---plot-predicted-probabilities">third step - plot predicted probabilities</h2>
+<ul>
+<li>of mpg01 as a function of wt and hp</li>
+<li>use the predict function to get the probabilities and the ggplot2 package to create the plot.</li>
+</ul>
+</section>
+<section id="run-the-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="run-the-pipeline">run the pipeline</h2>
+<ul>
+<li>use <code>targets::tar_make()</code> function</li>
+<li>execute the targets in order and skip any targets that are already up to date</li>
+<li>output objects stored in a hidden folder called _targets/objects/.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># to create _targets folder</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_make</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>✔ skip target xx
+✔ skip pipeline [0.024 seconds]</code></pre>
+</div>
+</div>
+<p>To display the output of a target, we use the tar_read() function. For example, here is the summary of the model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(modell) <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = mpg01 ~ wt + hp, family = binomial, data = dataa)
+
+Coefficients:
+              Estimate Std. Error z value Pr(&gt;|z|)
+(Intercept) -6.213e+02  3.683e+05  -0.002    0.999
+wt           1.755e+02  1.060e+05   0.002    0.999
+hp           3.336e-01  4.129e+02   0.001    0.999
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 4.4236e+01  on 31  degrees of freedom
+Residual deviance: 4.8251e-09  on 29  degrees of freedom
+AIC: 6
+
+Number of Fisher Scoring iterations: 25</code></pre>
+</div>
+</div>
+<p>And here is the plot:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(xx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(plott)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="targets_pipeline_em_files/figure-html/read%20plott-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<pre><code>  # Render document
+  tar_render(
+    report,
+    "report.qmd"
+  )</code></pre>
+</section>
+</section>
+<section id="output" class="level1">
+<h1>Output</h1>
+<p>We can use the <code>tar_load()</code> and <code>tar_read()</code> functions to access the output of the targets in the pipeline. For example, we can load the plot target and display it in the document.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(plott)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can also use the <code>targets::tar_visnetwork()</code> function to visualize the dependency graph of the pipeline.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_visnetwork</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="visNetwork html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-f905d1c635fcd0726e23" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-f905d1c635fcd0726e23">{"x":{"nodes":{"name":["xx"],"type":["stem"],"status":["uptodate"],"seconds":[0],"bytes":[50],"branches":[null],"label":["xx"],"color":["#354823"],"id":["xx"],"level":[0],"shape":["dot"]},"edges":{"from":[],"to":[],"arrows":[]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Stem"],"color":["#354823","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>This document shows how to use the targets package with quarto to create a reproducible pipeline. The document itself is part of the pipeline, and it will be re-rendered whenever any of its dependencies change. This ensures that the output is always up to date and consistent with the code.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

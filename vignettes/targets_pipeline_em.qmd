@@ -1,0 +1,124 @@
+---
+title: "Quarto and targets example"
+format: html
+---
+
+<!--
+generate the contents of a sample quarto .qmd file that includes an example of a targets pipeline
+-->
+
+# Introduction
+
+This is a quarto document that uses the targets package to create a reproducible pipeline. The pipeline consists of the following steps:
+
+- Download some data from the web using `tar_target()`.
+- Clean the data and filter out some rows using `tar_target()`.
+- Plot the data using `tar_target()`.
+- Render this document using `tar_render()`.
+
+# Setup
+
+We load the required packages and set some options.
+
+```{r setup}
+library(quarto)
+library(targets)
+library(tarchetypes)
+library(tidyverse)
+library(ggplot2)
+
+options(tidyverse.quiet = TRUE)
+```
+
+
+# Pipeline
+We define the pipeline using a 
+list of target objects. 
+We use the 
+`tar_target()` function to 
+create regular targets, and the 
+`tar_render()` function to 
+create a special target that renders this document.
+
+## step 1 - load and process data
++ We use the mtcars dataset from R 
++ create a new variable called mpg01 that indicates whether the miles per gallon is above or below the median.
+
+```{r functions.R}
+print(getwd())
+# TODO: ../R v ./R ?
+source("../R/plan_vig_targets.R") # Some custom functions for the pipeline
+tar_make() # essential else dataa doesnt exist?!
+tar_read(dataa)
+tar_read(modell)
+tar_read(plott)
+```
+
+```{r tar_script}
+tar_script(tar_target(xx, 1 + 1), ask = FALSE)
+tar_make()
+tar_read(xx)
+```
+
+## second step - fit a linear model 
++ of mpg01 as a function of wt and hp
++ use the glm function with a binomial family.
+
+```{r step 2}
+```
+
+## third step - plot predicted probabilities 
++ of mpg01 as a function of wt and hp
++ use the predict function to get the probabilities and the ggplot2 package to create the plot.
+```{r step 3}
+
+```
+
+## run the pipeline
++ use `targets::tar_make()` function
++ execute the targets in order and skip any targets that are already up to date
++ output objects stored in a hidden folder called _targets/objects/.
+```{r tar_make}
+# to create _targets folder
+targets::tar_make()
+```
+
+To display the output of a target, we use the tar_read() function. For example, here is the summary of the model:
+```{r modell}
+tar_read(modell) %>% summary()
+```
+
+And here is the plot:
+```{r read plott}
+tar_read(xx)
+tar_read(plott)
+```
+
+
+```
+  # Render document
+  tar_render(
+    report,
+    "report.qmd"
+  )
+```
+
+# Output
+We can use the 
+`tar_load()` and 
+`tar_read()` 
+functions to access the output of the targets in the pipeline. For example, we can load the plot target and display it in the document.
+
+```{r load plott}
+tar_load(plott)
+```
+
+We can also use the `targets::tar_visnetwork()` function to visualize the dependency graph of the pipeline.
+
+```{r tar_visnetwork}
+targets::tar_visnetwork()
+```
+
+# Conclusion
+This document shows how to use the targets package with quarto to create a reproducible pipeline. The document itself is part of the pipeline, and it will be re-rendered whenever any of its dependencies change. This ensures that the output is always up to date and consistent with the code.
+
