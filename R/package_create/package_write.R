@@ -14,7 +14,7 @@ my_folder <- "../wordparse"
 # use_package('tibble')
 
 # (Re-)build NAMESPACE
-install(my_folder)
+devtools::install(my_folder)
 # update the NAMESPACE file
 document(my_folder)
 document()
