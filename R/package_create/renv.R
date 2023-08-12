@@ -10,6 +10,11 @@ unlink("renv", recursive = TRUE)
 rstudioapi::restartSession()
 # renv::settings$snapshot.type("explicit")
 options(renv.settings.snapshot.type = "explicit")
+# record renv 1.0.0 in the lockfile.
+renv::record("renv@1.0.0") # for quarto
+# install renv 0.17.3 into the project library.
+# renv::restore(packages = "renv")
+
 renv::init()
 rstudioapi::restartSession()
 renv::status()
@@ -31,6 +36,9 @@ renv::snapshot() # to update the lockfile
 # Then execute (install the packages as described in the DESCRIPTION)
 options(renv.settings.snapshot.type = "explicit")
 renv::install()
+
+# Associate a version of Python with your project.
+renv::use_python()
 
 # renv can see into subfolders!
 renv::dependencies()
