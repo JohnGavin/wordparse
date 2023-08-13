@@ -48,9 +48,12 @@ test(my_folder)
 # GITHUB_PAT
 # usethis::edit_r_environ()
 # Chp 10: Happy Git With R - setup a new PAT
+# https://ivelasq.rbind.io/blog/macos-rig/
+# generate a PAT with suggested, pre-selected scopes
 usethis::create_github_token()
 # credentials::set_github_pat() # to update credentials
 # change authentication - PASTE IN your PAT
+# save the PAT locally using the macOS Git credential manager (after copying it from GitHub):
 # gitcreds::gitcreds_set()
 gh::gh_whoami()
 # make sure everything is looking good
@@ -70,3 +73,4 @@ usethis::pr_push()
 # x <- '/Users/johngavin/Documents_GitHub/wordparse/renv/library/R-4.3/aarch64-apple-darwin20/wordparse/R/wordparse.rdb'
 # file.remove(x)
 
+usethis::edit_rstudio_prefs()
