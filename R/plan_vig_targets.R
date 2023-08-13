@@ -1,6 +1,7 @@
 
 library(targets) # else 'tar_script' not found in devtools::install
 # plan_vig_targets.R
+#' @importFrom targets tar_target tar_script
 tar_script({
   dataa <- tar_target(dataa, {
     data <- mtcars

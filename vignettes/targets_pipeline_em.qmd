@@ -1,6 +1,12 @@
 ---
 title: "Quarto and targets example"
 format: html
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{Quarto and targets example}
+  %\usepackage[UTF-8]{inputenc}
 ---
 
 <!--
@@ -21,10 +27,10 @@ This is a quarto document that uses the targets package to create a reproducible
 We load the required packages and set some options.
 
 ```{r setup}
-library(quarto)
+# library(quarto)
 library(targets)
-library(tarchetypes)
-library(tidyverse)
+# library(tarchetypes)
+# library(tidyverse) # 
 library(ggplot2)
 
 options(tidyverse.quiet = TRUE)
@@ -85,11 +91,11 @@ targets::tar_make()
 
 To display the output of a target, we use the tar_read() function. For example, here is the summary of the model:
 ```{r modell}
-tar_read(modell) %>% summary()
+tar_read(modell) |> summary()
 ```
 
 And here is the plot:
-```{r read plott}
+```{r read_plott}
 tar_read(xx)
 tar_read(plott)
 ```

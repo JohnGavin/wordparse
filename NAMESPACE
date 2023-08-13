@@ -2,3 +2,5 @@
 
 export(vowel_strs)
 importFrom(purrr,map)
+importFrom(targets,tar_script)
+importFrom(targets,tar_target)

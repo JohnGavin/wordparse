@@ -16,7 +16,7 @@ my_folder <- "../wordparse"
 # (Re-)build NAMESPACE
 devtools::install(my_folder)
 # update the NAMESPACE file
-document(my_folder)
+devtools::document(my_folder)
 document()
 
 # Reload the package: CTRL-L or
