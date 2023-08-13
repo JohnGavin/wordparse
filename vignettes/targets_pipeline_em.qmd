@@ -4,7 +4,7 @@ format: html
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteEngine{knitr::knitr}
+  %\VignetteEngine{knitr::rmarkdown} 
   %\VignetteIndexEntry{Quarto and targets example}
   %\usepackage[UTF-8]{inputenc}
 ---
