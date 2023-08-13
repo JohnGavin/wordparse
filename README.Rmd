@@ -1,5 +1,15 @@
 ---
-output: github_document
+title: README for wordparse repo
+author: "John Gavin"
+date: "`r Sys.Date()`"
+toc: true
+output: rmarkdown::html_vignette
+# output: github_document
+# % \ VignetteEngine{knitr::rmarkdown}
+vignette: >
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{README for wordparse repo}
+  %\usepackage[UTF-8]{inputenc}
 ---
 
 <!--
@@ -14,6 +24,7 @@ for more examples
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
+  # keep images in folder to avoid cran check errors
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
