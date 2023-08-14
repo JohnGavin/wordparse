@@ -23,6 +23,10 @@ jobs:
       #  run: apt update -qq && apt install --yes --no-install-recommends cmake git
       - name: Package Dependencies
         run: R -q -e 'remotes::install_deps(".", dependencies=TRUE)'
+      # Packages suggested but not available: 'testthat', 'rmarkdown'
+      # The suggested packages are required for a complete check.
+      # Checking can be attempted without them by setting the environment
+      # variable _R_CHECK_FORCE_SUGGESTS_ to a false value.
       - name: Build Package
         run: R CMD build --no-build-vignettes --no-manual .
       - name: Check Package

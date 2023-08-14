@@ -1,0 +1,10 @@
+# renv took longer than expected (20 seconds) to activate the sandbox.
+# The sandbox can be disabled by setting:
+RENV_CONFIG_SANDBOX_ENABLED = FALSE
+# within an appropriate start-up .Renviron file.
+
+# Packages suggested but not available: 'testthat', 'rmarkdown'
+# The suggested packages are required for a complete check.
+# Checking can be attempted without them by setting the environment
+# variable
+_R_CHECK_FORCE_SUGGESTS_ = FALSE
