@@ -64,6 +64,9 @@ create a special target that renders this document.
 + create a new variable called mpg01 that indicates whether the miles per gallon is above or below the median.
 
 ```{r functions.R}
+# FIXME: this creates functions.R-1.png
+# in ~/Documents_GitHub/wordparse/vignettes/targets_pipeline_em_files/figure-html
+# i.e. plott creates a png of the plot?!
 print(getwd())
 # TODO: ../R v ./R ?
 source("../R/plan_vig_targets.R") # Some custom functions for the pipeline
@@ -84,14 +87,14 @@ tar_read(xx)
 + of mpg01 as a function of wt and hp
 + use the glm function with a binomial family.
 
-```{r step 2}
+```{r step_2}
 tar_read(modell)
 ```
 
 ## third step - plot predicted probabilities 
 + of mpg01 as a function of wt and hp
 + use the predict function to get the probabilities and the ggplot2 package to create the plot.
-```{r step 3}
+```{r step_3}
 tar_read(plott)
 ```
 

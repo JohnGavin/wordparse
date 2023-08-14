@@ -12,6 +12,9 @@ tar_script({
     glm(mpg01 ~ wt + hp,
         data = dataa, family = binomial)
   })
+  # FIXME: this creates functions.R-1.png
+  # in ~/Documents_GitHub/wordparse/vignettes/targets_pipeline_em_files/figure-html
+  # i.e. plott creates a png of the plot?!
   plott <- tar_target(plott, {
     library(ggplot2)
     pred <- predict(modell, type = "response")
