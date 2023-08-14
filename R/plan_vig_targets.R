@@ -23,5 +23,5 @@ tar_script({
            y = "Horsepower",
            color = "Probability")
   })
-  list(dataa, modell, plott)
+  list(dataa = dataa, modell = modell, plott = plott)
   }, ask = FALSE)
