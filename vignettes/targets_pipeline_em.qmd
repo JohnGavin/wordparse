@@ -4,12 +4,14 @@ format: html
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteEngine{knitr::rmarkdown} 
+  %\VignetteEngine{knitr::knitr} 
   %\VignetteIndexEntry{Quarto and targets example}
   %\usepackage[UTF-8]{inputenc}
 ---
 
 <!--
+https://r-pkgs.org/vignettes.html#sec-vignettes-workflow-writing
+
 generate the contents of a sample quarto .qmd file that includes an example of a targets pipeline
 -->
 
@@ -26,14 +28,25 @@ This is a quarto document that uses the targets package to create a reproducible
 
 We load the required packages and set some options.
 
-```{r setup}
+```{r setup, include = FALSE}
 # library(quarto)
+library(wordparse)
 library(targets)
 # library(tarchetypes)
 # library(tidyverse) # 
 library(ggplot2)
 
 options(tidyverse.quiet = TRUE)
+
+# https://stackoverflow.com/questions/30237310/setting-work-directory-in-knitr-using-opts-chunksetroot-dir-doesnt-wor
+# change of the working directory affects not the current but only the next chunk. So e. g. if you want to load data relative to the new working directory do that in the following chunk.
+# knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+knitr::opts_chunk$set(echo = FALSE
+                      , comment = NA
+                      , warning = FALSE
+                      , error = FALSE
+                      , message = FALSE
+                      , tidy = TRUE)
 ```
 
 
@@ -56,11 +69,12 @@ print(getwd())
 source("../R/plan_vig_targets.R") # Some custom functions for the pipeline
 tar_make() # essential else dataa doesnt exist?!
 tar_read(dataa)
-tar_read(modell)
-tar_read(plott)
+
 ```
 
 ```{r tar_script}
+# creates vignette/_targets.R
+# puts library(targets) as first line
 tar_script(tar_target(xx, 1 + 1), ask = FALSE)
 tar_make()
 tar_read(xx)
@@ -71,13 +85,14 @@ tar_read(xx)
 + use the glm function with a binomial family.
 
 ```{r step 2}
+tar_read(modell)
 ```
 
 ## third step - plot predicted probabilities 
 + of mpg01 as a function of wt and hp
 + use the predict function to get the probabilities and the ggplot2 package to create the plot.
 ```{r step 3}
-
+tar_read(plott)
 ```
 
 ## run the pipeline

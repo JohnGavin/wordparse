@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2023-08-13">
+<meta name="dcterms.date" content="2023-08-14">
 
 <title>Quarto and targets example</title>
 <style>
@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -95,7 +61,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 13, 2023</p>
+      <p class="date">August 14, 2023</p>
     </div>
   </div>
   
@@ -106,6 +72,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <!--
+https://r-pkgs.org/vignettes.html#sec-vignettes-workflow-writing
+
 generate the contents of a sample quarto .qmd file that includes an example of a targets pipeline
 -->
 <section id="introduction" class="level1">
@@ -121,15 +89,6 @@ generate the contents of a sample quarto .qmd file that includes an example of a
 <section id="setup" class="level1">
 <h1>Setup</h1>
 <p>We load the required packages and set some options.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(quarto)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(targets)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># library(tarchetypes)</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># library(tidyverse) # </span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">tidyverse.quiet =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </section>
 <section id="pipeline" class="level1">
 <h1>Pipeline</h1>
@@ -141,22 +100,17 @@ generate the contents of a sample quarto .qmd file that includes an example of a
 <li>create a new variable called mpg01 that indicates whether the miles per gallon is above or below the median.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">getwd</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "/Users/johngavin/Documents_GitHub/wordparse/vignettes"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: ../R v ./R ?</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"../R/plan_vig_targets.R"</span>) <span class="co"># Some custom functions for the pipeline</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_make</span>() <span class="co"># essential else dataa doesnt exist?!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>✔ skip target dataa
 ✔ skip target modell
 ✔ skip target plott
-✔ skip pipeline [0.028 seconds]
+✔ skip pipeline [0.025 seconds]
 Warning message:
 Targets and globals must have unique names. Ignoring global objects that conflict with target names: modell, dataa, plott. Warnings like this one are important, but if you must suppress them, you can do so with Sys.setenv(TAR_WARN = "false"). </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(dataa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb mpg01
 Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4  High
@@ -192,7 +146,24 @@ Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6  High
 Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8   Low
 Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2  High</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(modell)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>✔ skip target xx
+✔ skip pipeline [0.022 seconds]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+</section>
+<section id="second-step---fit-a-linear-model" class="level2">
+<h2 class="anchored" data-anchor-id="second-step---fit-a-linear-model">second step - fit a linear model</h2>
+<ul>
+<li>of mpg01 as a function of wt and hp</li>
+<li>use the glm function with a binomial family.</li>
+</ul>
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:  glm(formula = mpg01 ~ wt + hp, family = binomial, data = dataa)
@@ -205,30 +176,7 @@ Degrees of Freedom: 31 Total (i.e. Null);  29 Residual
 Null Deviance:      44.24 
 Residual Deviance: 4.825e-09    AIC: 6</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(plott)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="targets_pipeline_em_files/figure-html/functions.R-1.png" class="img-fluid" width="672"></p>
 </div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_script</span>(<span class="fu">tar_target</span>(xx, <span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span>), <span class="at">ask =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_make</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>✔ skip target xx
-✔ skip pipeline [0.022 seconds]</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(xx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
-</section>
-<section id="second-step---fit-a-linear-model" class="level2">
-<h2 class="anchored" data-anchor-id="second-step---fit-a-linear-model">second step - fit a linear model</h2>
-<ul>
-<li>of mpg01 as a function of wt and hp</li>
-<li>use the glm function with a binomial family.</li>
-</ul>
 </section>
 <section id="third-step---plot-predicted-probabilities" class="level2">
 <h2 class="anchored" data-anchor-id="third-step---plot-predicted-probabilities">third step - plot predicted probabilities</h2>
@@ -236,6 +184,11 @@ Residual Deviance: 4.825e-09    AIC: 6</code></pre>
 <li>of mpg01 as a function of wt and hp</li>
 <li>use the predict function to get the probabilities and the ggplot2 package to create the plot.</li>
 </ul>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="targets_pipeline_em_files/figure-html/step%203-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 </section>
 <section id="run-the-pipeline" class="level2">
 <h2 class="anchored" data-anchor-id="run-the-pipeline">run the pipeline</h2>
@@ -245,8 +198,6 @@ Residual Deviance: 4.825e-09    AIC: 6</code></pre>
 <li>output objects stored in a hidden folder called _targets/objects/.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># to create _targets folder</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_make</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>✔ skip target xx
 ✔ skip pipeline [0.022 seconds]</code></pre>
@@ -254,7 +205,6 @@ Residual Deviance: 4.825e-09    AIC: 6</code></pre>
 </div>
 <p>To display the output of a target, we use the tar_read() function. For example, here is the summary of the model:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(modell) <span class="sc">|&gt;</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -277,11 +227,9 @@ Number of Fisher Scoring iterations: 25</code></pre>
 </div>
 <p>And here is the plot:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(xx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(plott)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="targets_pipeline_em_files/figure-html/read_plott-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -296,15 +244,11 @@ Number of Fisher Scoring iterations: 25</code></pre>
 <section id="output" class="level1">
 <h1>Output</h1>
 <p>We can use the <code>tar_load()</code> and <code>tar_read()</code> functions to access the output of the targets in the pipeline. For example, we can load the plot target and display it in the document.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_load</span>(plott)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>We can also use the <code>targets::tar_visnetwork()</code> function to visualize the dependency graph of the pipeline.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_visnetwork</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="visNetwork html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-940550d000f422fe9b9c" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-940550d000f422fe9b9c">{"x":{"nodes":{"name":["xx"],"type":["stem"],"status":["uptodate"],"seconds":[0],"bytes":[50],"branches":[null],"label":["xx"],"color":["#354823"],"id":["xx"],"level":[0],"shape":["dot"]},"edges":{"from":[],"to":[],"arrows":[]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Stem"],"color":["#354823","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script>
+<div class="visNetwork html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-67d25ee4f3713b3b5af6" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-67d25ee4f3713b3b5af6">{"x":{"nodes":{"name":["xx"],"type":["stem"],"status":["uptodate"],"seconds":[0],"bytes":[50],"branches":[null],"label":["xx"],"color":["#354823"],"id":["xx"],"level":[0],"shape":["dot"]},"edges":{"from":[],"to":[],"arrows":[]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Stem"],"color":["#354823","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
