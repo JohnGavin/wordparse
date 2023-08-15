@@ -1,9 +1,5 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-data|stem|140cb03165573a96|4d28b3ae61066c9f|15669340fa0be499|1588979285||t19581.6868699538s|7f6efb6d9faceac0|456|rds|local|vector|||0.001||
-data_summary|stem|633b38828017e6e9|27fb8de4f4063b0c|c4b2450e37d29e74|1353521754||t19581.6868700502s|e7d9c43b1c994be3|87|rds|local|vector|||0||
-dataa|stem|d39789220ae59caf|71ab55857075e6c0|13f78de4113d200e|896939908||t19581.7274038254s|81467fd6396a174d|1281|rds|local|vector|||0.002||
-modell|stem|b07fc9e1ed9d81a1|cfa595e3800d04ea|59b19233996bc492|1959267458||t19581.7274039918s|05e4712b852bc8e4|8343|rds|local|vector|||0.005|glm.fit algorithm did not converge. glm.fit fitted probabilities numerically 0 or 1 occurred|
-plott|stem|698ee65b5d7339de|00defb960527b0cd|fea2ad1fa223f0a5|-568393516||t19581.7274071416s|77bc5ea77d408819|110065|rds|local|vector|||0.229||
-summarize_data|function|47494b9f4fa5f65b|||||||||||||||
-x|stem|a363a4b08d56b54f|2a2cf7e632cc6f0b|fdcdf23f9eace6e0|-1828477467||t19581.7192312429s|ded833868582137a|50|rds|local|vector|||0||
-xx|stem|a363a4b08d56b54f|2a2cf7e632cc6f0b|fdcdf23f9eace6e0|-1951265785||t19581.7202242083s|ded833868582137a|50|rds|local|vector|||0||
+dataa|stem|d39789220ae59caf|71ab55857075e6c0|13f78de4113d200e|896939908||t19584.47017022s|81467fd6396a174d|1281|rds|local|vector|||0.001||
+modell|stem|b07fc9e1ed9d81a1|cfa595e3800d04ea|59b19233996bc492|1959267458||t19584.4701703989s|05e4712b852bc8e4|8343|rds|local|vector|||0.005|glm.fit algorithm did not converge. glm.fit fitted probabilities numerically 0 or 1 occurred|
+plott|stem|698ee65b5d7339de|00defb960527b0cd|fea2ad1fa223f0a5|-568393516||t19584.4701719843s|77bc5ea77d408819|110065|rds|local|vector|||0.104||
+xx|stem|a363a4b08d56b54f|2a2cf7e632cc6f0b|fdcdf23f9eace6e0|-1951265785||t19584.4701784506s|ded833868582137a|50|rds|local|vector|||0.001||

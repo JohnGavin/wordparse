@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2023-08-15">
+<meta name="dcterms.date" content="2023-08-14">
 
 <title>Quarto and targets example</title>
 <style>
@@ -61,7 +61,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 15, 2023</p>
+      <p class="date">August 14, 2023</p>
     </div>
   </div>
   
@@ -104,18 +104,12 @@ generate the contents of a sample quarto .qmd file that includes an example of a
 <pre><code>[1] "/Users/johngavin/Documents_GitHub/wordparse/vignettes"</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>▶ start target dataa
-● built target dataa [0.001 seconds]
-▶ start target modell
-● built target modell [0.005 seconds]
-▶ start target plott
-● built target plott [0.104 seconds]
-▶ end pipeline [0.184 seconds]
-Warning messages:
-1: Targets and globals must have unique names. Ignoring global objects that conflict with target names: modell, dataa, plott. Warnings like this one are important, but if you must suppress them, you can do so with Sys.setenv(TAR_WARN = "false"). 
-2: glm.fit: algorithm did not converge 
-3: glm.fit: fitted probabilities numerically 0 or 1 occurred 
-4: 1 targets produced warnings. Run targets::tar_meta(fields = warnings, complete_only = TRUE) for the messages. </code></pre>
+<pre><code>✔ skip target dataa
+✔ skip target modell
+✔ skip target plott
+✔ skip pipeline [0.031 seconds]
+Warning message:
+Targets and globals must have unique names. Ignoring global objects that conflict with target names: modell, dataa, plott. Warnings like this one are important, but if you must suppress them, you can do so with Sys.setenv(TAR_WARN = "false"). </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb mpg01
@@ -155,9 +149,8 @@ Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2  High</c
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>▶ start target xx
-● built target xx [0.001 seconds]
-▶ end pipeline [0.035 seconds]</code></pre>
+<pre><code>✔ skip target xx
+✔ skip pipeline [0.024 seconds]</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2</code></pre>
@@ -207,7 +200,7 @@ Residual Deviance: 4.825e-09    AIC: 6</code></pre>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>✔ skip target xx
-✔ skip pipeline [0.025 seconds]</code></pre>
+✔ skip pipeline [0.023 seconds]</code></pre>
 </div>
 </div>
 <p>To display the output of a target, we use the tar_read() function. For example, here is the summary of the model:</p>
@@ -254,8 +247,8 @@ Number of Fisher Scoring iterations: 25</code></pre>
 <p>We can also use the <code>targets::tar_visnetwork()</code> function to visualize the dependency graph of the pipeline.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="visNetwork html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-a440716ee1a949a818c4" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-a440716ee1a949a818c4">{"x":{"nodes":{"name":["xx"],"type":["stem"],"status":["uptodate"],"seconds":[0.001],"bytes":[50],"branches":[null],"label":["xx"],"color":["#354823"],"id":["xx"],"level":[0],"shape":["dot"]},"edges":{"from":[],"to":[],"arrows":[]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Stem"],"color":["#354823","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script>
+<div class="visNetwork html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-8d5bafc02cda4d6b8c19" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-8d5bafc02cda4d6b8c19">{"x":{"nodes":{"name":["xx"],"type":["stem"],"status":["uptodate"],"seconds":[0],"bytes":[50],"branches":[null],"label":["xx"],"color":["#354823"],"id":["xx"],"level":[0],"shape":["dot"]},"edges":{"from":[],"to":[],"arrows":[]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":{"type":"cubicBezier","forceDirection":"horizontal"}},"physics":{"stabilization":false},"interaction":{"zoomSpeed":1},"layout":{"hierarchical":{"enabled":true,"direction":"LR"}}},"groups":null,"width":null,"height":null,"idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":{"text":"","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","highlight":{"enabled":true,"hoverNearest":false,"degree":{"from":1,"to":1},"algorithm":"hierarchical","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":true,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":false,"position":"right","ncol":1,"stepX":100,"stepY":100,"zoom":true,"nodes":{"label":["Up to date","Stem"],"color":["#354823","#899DA4"],"shape":["dot","dot"]},"nodesToDataframe":true},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
